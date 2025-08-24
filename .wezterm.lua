@@ -47,14 +47,20 @@ config.use_fancy_tab_bar = true
 -- Add transparency
 -- config.window_background_opacity = 0.93
 
-local bg_color_opacity_options = {0.3, 0.5, 0.65, 0.85, 1}
+local bg_color_opacity_options = {0.1, 0.3, 0.5, 0.65, 0.85, 1}
+
+local wallpapers = {
+      "C:\\Users\\harshwar\\OneDrive - Advanced Micro Devices Inc\\Pictures\\wallpapers\\GOJO4.jpg",
+      "C:\\Users\\harshwar\\OneDrive - Advanced Micro Devices Inc\\Pictures\\wallpapers\\GOKU_UI.jpg",
+      "C:\\Users\\harshwar\\OneDrive - Advanced Micro Devices Inc\\Pictures\\wallpapers\\Gojo1.jpg",
+      "C:\\Users\\harshwar\\OneDrive - Advanced Micro Devices Inc\\Pictures\\wallpapers\\GOKU2.jpg",
+}
 
 -- Add background image with gradient
 config.background = {
   {
     source = {
-    --   File = "wallpapers\\GOKU2.jpg",
-      File = "wallpapers\\GOJO4.jpg",
+      File = wallpapers[1],
     },
     hsb = {
       hue = 1,
@@ -87,7 +93,7 @@ config.background = {
     width = "100%",
     height = "100%",
     -- opacity = 0.65,
-    opacity = bg_color_opacity_options[3],
+    opacity = bg_color_opacity_options[4],
     -- comment = "foreground color over wallpaper"
   },
 }
@@ -107,15 +113,15 @@ config.mouse_bindings = {
       event = { Up = { streak = 1, button = "Right" } },
       mods = "NONE",
       action = wezterm.action.PasteFrom("Clipboard"),
-    },
-    {
-      event = { Up = { streak = 1, button = "Left" } },
-      mods = "NONE",
-      action = wezterm.action_callback(function(window, pane)
-        local text = window:get_selection_text_for_pane(pane, "ClipboardAndPrimarySelection")
-        wezterm.log_info("Double-clicked selection (ClipboardAndPrimarySelection): " .. (text or "<none>"))
-      end),
     }
+    -- {
+    --   event = { Up = { streak = 1, button = "Left" } },
+    --   mods = "NONE",
+    --   action = wezterm.action_callback(function(window, pane)
+    --     local text = window:get_selection_text_for_pane(pane, "ClipboardAndPrimarySelection")
+    --     wezterm.log_info("Double-clicked selection (ClipboardAndPrimarySelection): " .. (text or "<none>"))
+    --   end),
+    -- }
 }
 
 -- Remove space and newline from word boundaries to help with wrapped paths
@@ -152,7 +158,40 @@ wezterm.on('toggle-color-scheme', function(window, pane)
 end)
 
 
--- Custom event to toggle color scheme. Fire it `config.keys`.
+-- Custom event to toggle wallpaper opacity with direction
+wezterm.on('toggle-wallpaper-opacity', function(window, pane, direction)
+  local overrides = window:get_config_overrides() or {}
+  local current_bg = overrides.background or config.background
+
+  local curr_opacity = current_bg[3].opacity
+  local current_index = 1
+  
+  -- Find current opacity index
+  for i, value in ipairs(bg_color_opacity_options) do
+    if curr_opacity == value then
+      current_index = i
+      break
+    end
+  end
+
+  local new_index
+  if direction == 'increase' then
+    -- Increase opacity (higher value)
+    new_index = math.min(current_index + 1, #bg_color_opacity_options)
+  else
+    -- Decrease opacity (lower value)  
+    new_index = math.max(current_index - 1, 1)
+  end
+  
+  local new_opacity = bg_color_opacity_options[new_index]
+  wezterm.log_info("Switching bg_opacity to:", new_opacity)
+  
+  current_bg[3].opacity = new_opacity
+  overrides.background = current_bg
+  window:set_config_overrides(overrides)
+end)
+
+
 wezterm.on('toggle-wallpaper', function(window, pane)
   local overrides = window:get_config_overrides() or {}
   local current_bg = overrides.background or config.background
@@ -165,34 +204,64 @@ wezterm.on('toggle-wallpaper', function(window, pane)
       break
     end
   end
-  wezterm.log_info("Switching bg_opacity to:", curr_opacity)
+  -- wezterm.log_info("Switching bg_opacity to:", curr_opacity)
   current_bg[3].opacity = curr_opacity
   overrides.background = current_bg
   window:set_config_overrides(overrides)
 
   end)
 
+-- Add this event handler somewhere above:
+wezterm.on('toggle-font-size', function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+  local current_size = overrides.font_size or config.font_size
+  overrides.font_size = (current_size == 11) and 5 or 11
+  window:set_config_overrides(overrides)
+end)
 
+-- timeout_milliseconds defaults to 1000 and can be omitted
+config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 -- Add key bindings for better selection
 config.keys = {
   -- Quick select for pattern-based selection
   {
-    key = 'H',
-    mods = 'CTRL|SHIFT',
+    key = 'h',
+     mods = 'LEADER',
     action =  wezterm.action({ EmitEvent = 'toggle-color-scheme' }),
   },
   {
-    key = "K",
-    mods = "CTRL|SHIFT",
+    key = "B",
+     mods = 'LEADER',
+    action = wezterm.action_callback(function(window, pane)
+      wezterm.emit('toggle-wallpaper-opacity', window, pane, 'decrease')
+    end),
+  },
+  {
+    key = "b",
+     mods = 'LEADER',
+    action = wezterm.action_callback(function(window, pane)
+      wezterm.emit('toggle-wallpaper-opacity', window, pane, 'increase')
+    end),
+  },
+  {
+    key = "j",
+     mods = 'LEADER',
     action = wezterm.action({ EmitEvent = 'toggle-wallpaper' }),
+  },
+  {
+    key = "z",
+    mods = 'LEADER',
+    action = wezterm.action({ EmitEvent = 'toggle-font-size' }),
   },
   {
     key = "Enter",
     mods = "CTRL|SHIFT",
     action = wezterm.action_callback(function(window, pane)
-      local text = pane:get_lines_as_text()
+      local text = pane:get_logical_lines_as_text()
       wezterm.log_info("Pane content:\n" .. (text or "<none>"))
 
+      -- Write the content to a file
+      local file_path = "C:\\Users\\harshwar\\wezterm_pane_output.txt"
       local file, err = io.open(file_path, "w")
       if file then
         file:write(text or "")
@@ -211,7 +280,8 @@ config.ssh_domains = {
     name = 'vdi.server',
     -- The hostname or address to connect to. Will be used to match settings
     -- from your ssh config file
-    remote_address = 'server-address',
+    -- remote_address = 'xhdharshwar41x',
+    remote_address = 'host',
     -- The username to use on the remote host
     username = 'username',
   },
