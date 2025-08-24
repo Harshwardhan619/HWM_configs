@@ -1,0 +1,11 @@
+-- Using lazy.nvim
+return {}
+-- return {
+--     {
+--         'othree/eregex.vim',
+--         config = function()
+--             vim.g.eregex_default_enable = 0
+--             vim.keymap.set('n', '<leader>/', ':call eregex#toggle()<CR>', { desc = 'Toggle eregex' })
+--         end
+--     }
+-- }
