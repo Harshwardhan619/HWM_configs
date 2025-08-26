@@ -39,6 +39,8 @@ return {
           },
         },
         filetypes = {
+          lua = true,
+          vim = true,
           yaml = false,
           markdown = true,
           help = false,
@@ -75,7 +77,7 @@ return {
     end,
     keys = {
       -- Quick chat - most important one
-      { "<leader>cc", function()
+      { "<leader>ci", function()
         local input = vim.fn.input("Ask Copilot: ")
         if input ~= "" then
           require("CopilotChat").ask(input)
@@ -84,8 +86,8 @@ return {
       
       -- Essential commands
       { "<leader>ce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-      { "<leader>cf", "<cmd>CopilotChatFix<cr>", desc = "CopilotChat - Fix code" },
-      { "<leader>co", "<cmd>CopilotChatOptimize<cr>", desc = "CopilotChat - Optimize code" },
+      { "<leader>cof", "<cmd>CopilotChatFix<cr>", desc = "CopilotChat - Fix code" },
+      { "<leader>coo", "<cmd>CopilotChatOptimize<cr>", desc = "CopilotChat - Optimize code" },
       { "<leader>ct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
       
       -- Toggle chat window
@@ -93,7 +95,8 @@ return {
       
       -- Visual mode - explain selection
       { "<leader>ce", ":CopilotChatExplain<cr>", mode = "v", desc = "CopilotChat - Explain selection" },
-      { "<leader>cf", ":CopilotChatFix<cr>", mode = "v", desc = "CopilotChat - Fix selection" },
+      { "<leader>cof", ":CopilotChatFix<cr>", mode = "v", desc = "CopilotChat - Fix selection" },
+
     },
   },
 }

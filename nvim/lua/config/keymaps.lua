@@ -42,9 +42,10 @@ vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Ex mode" })
 --vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Open tmux sessionizer" })
 --vim.keymap.set("n", "<M-h>", "<cmd>silent !tmux-sessionizer -s 0 --vsplit<CR>", { desc = "Tmux sessionizer vertical split" })
 --vim.keymap.set("n", "<M-H>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>", { desc = "Tmux sessionizer new window" })
-vim.keymap.set("n", "<leader>f", function()
-    require("conform").format({ bufnr = 0 })
-end, { desc = "[F]ormat current buffer" })
+-- vim.keymap.set("n", "<leader>cf", function()
+--     require("conform").format({ bufnr = 0 })
+-- end, { desc = "[F]ormat current buffer" })
+--
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
@@ -101,4 +102,4 @@ end, { desc = "Toggle [M]ouse support" })
 --    vim.cmd("so")
 --end, { desc = "Source current file" })
 
-    
+
