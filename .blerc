@@ -77,5 +77,14 @@ ble-face -s menu_desc_quote           ref:syntax_quoted
 ble-face -s menu_filter_fixed         bold
 ble-face -s menu_filter_input         fg=16,bg=229
 
+
+# reduce completions spade
 bleopt complete_ambiguous=       
 bleopt complete_limit=200
+
+
+# mapping for vi mode:
+set -o vi
+ble-bind -m vi_imap -f 'C-c' discard-line
+ble-bind -m vi_nmap -f 'C-c' discard-line
+
