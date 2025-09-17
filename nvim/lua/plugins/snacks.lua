@@ -1,8 +1,8 @@
 return {
   {
     "folke/snacks.nvim",
-    opts = {
-      input = { enabled = false }
-    },
+    -- opts = {
+    --   input = { enabled = false }
+    -- },
   },
 }

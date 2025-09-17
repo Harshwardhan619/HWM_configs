@@ -3,10 +3,8 @@
 -- Add any additional options here
 --
 
-
 vim.g.snacks_animate = false
-vim.b.snacks_animate = false 
-
+vim.b.snacks_animate = false
 
 vim.opt.guicursor = ""
 
@@ -39,3 +37,9 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
+
+vim.lsp.buf.format = false
+
+vim.opt.wrap = true
+
+vim.g.lazyvim_picker = "telescope"
