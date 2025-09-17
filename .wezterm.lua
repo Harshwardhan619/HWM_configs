@@ -125,9 +125,10 @@ config.mouse_bindings = {
     -- }
 }
 
+-- Might be useful for tmux
 -- Remove space and newline from word boundaries to help with wrapped paths
 -- config.selection_word_boundary = " \n\t{}[]()\"'`,;:│"
-config.selection_word_boundary = " \t()[]{}'\""
+-- config.selection_word_boundary = " \t()[]{}'\""
 
 -- Keybinding to toggle through color schemes
 local color_schemes = {
@@ -239,9 +240,9 @@ wezterm.on('toggle-font-size', function(window, pane)
   window:set_config_overrides(overrides)
 end)
 
+
 -- timeout_milliseconds defaults to 1000 and can be omitted
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 2000 }
--- Add key bindings for better selection
 config.keys = {
   -- Custom WezTerm keybindings (using non-conflicting keys)
   {
@@ -293,71 +294,75 @@ config.keys = {
     end),
   },
   
- {
-        mods = "LEADER",
-        key = "c",
-        action = wezterm.action.SpawnTab "CurrentPaneDomain",
-    },
-    {
-        mods = "LEADER",
-        key = "x",
-        action = wezterm.action.CloseCurrentPane { confirm = true }
-    },
-    { mods = "LEADER", key = "p", action = wezterm.action.ActivateTabRelative(-1) }, 
-    { mods = "LEADER", key = "n", action = wezterm.action.ActivateTabRelative(1) },
-
-    { mods = "SHIFT", key = "LeftArrow", action = wezterm.action.ActivateTabRelative(-1) }, 
-    { mods = "SHIFT", key = "RightArrow", action = wezterm.action.ActivateTabRelative(1) },
-
-    { mods = "LEADER|SHIFT", key = "|", action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" }},
-    { mods = "LEADER", key = "\\", action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" }},
-    {
-        mods = "LEADER",
-        key = "-",
-        action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" }
-    },
-    { mods = "LEADER", key = "h", action = wezterm.action.ActivatePaneDirection "Left" }, 
-    { mods = "LEADER", key = "j", action = wezterm.action.ActivatePaneDirection "Down" }, 
-    { mods = "LEADER", key = "k", action = wezterm.action.ActivatePaneDirection "Up" }, 
-    { mods = "LEADER", key = "l", action = wezterm.action.ActivatePaneDirection "Right" },
-
-    { mods = "ALT", key = "LeftArrow", action = wezterm.action.ActivatePaneDirection "Left" }, 
-    { mods = "ALT", key = "DownArrow", action = wezterm.action.ActivatePaneDirection "Down" }, 
-    { mods = "ALT", key = "UpArrow", action = wezterm.action.ActivatePaneDirection "Up" }, 
-    { mods = "ALT", key = "RightArrow", action = wezterm.action.ActivatePaneDirection "Right" },
-
-    {
-        mods = "LEADER",
-        key = "LeftArrow",
-        action = wezterm.action.AdjustPaneSize { "Left", 5 }
-    },
-    {
-        mods = "LEADER",
-        key = "RightArrow",
-        action = wezterm.action.AdjustPaneSize { "Right", 5 }
-    },
-    {
-        mods = "LEADER",
-        key = "DownArrow",
-        action = wezterm.action.AdjustPaneSize { "Down", 5 }
-    },
-    {
-        mods = "LEADER",
-        key = "UpArrow",
-        action = wezterm.action.AdjustPaneSize { "Up", 5 }
-    },
-    
-    -- Zoom/unzoom pane (toggle maximize)
-    {
-        mods = "LEADER",
-        key = "z",
-        action = wezterm.action.TogglePaneZoomState
-    },
-
-  -- Copy mode (like tmux copy mode)
   {
-    key = '[',
-    mods = 'LEADER',
+      mods = "LEADER",
+      key = "c",
+      action = wezterm.action.SpawnTab "CurrentPaneDomain",
+  },
+  {
+      mods = "LEADER",
+      key = "x",
+      action = wezterm.action.CloseCurrentPane { confirm = true }
+  },
+  { mods = "LEADER", key = "p", action = wezterm.action.ActivateTabRelative(-1) }, 
+  { mods = "LEADER", key = "n", action = wezterm.action.ActivateTabRelative(1) },
+
+  { mods = "SHIFT", key = "LeftArrow", action = wezterm.action.ActivateTabRelative(-1) }, 
+  { mods = "SHIFT", key = "RightArrow", action = wezterm.action.ActivateTabRelative(1) },
+
+  { mods = "LEADER|SHIFT", key = "|", action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" }},
+  { mods = "LEADER", key = "\\", action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" }},
+  {
+      mods = "LEADER",
+      key = "-",
+      action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" }
+  },
+  { mods = "LEADER", key = "h", action = wezterm.action.ActivatePaneDirection "Left" }, 
+  { mods = "LEADER", key = "j", action = wezterm.action.ActivatePaneDirection "Down" }, 
+  { mods = "LEADER", key = "k", action = wezterm.action.ActivatePaneDirection "Up" }, 
+  { mods = "LEADER", key = "l", action = wezterm.action.ActivatePaneDirection "Right" },
+
+  { mods = "ALT", key = "LeftArrow", action = wezterm.action.ActivatePaneDirection "Left" }, 
+  { mods = "ALT", key = "DownArrow", action = wezterm.action.ActivatePaneDirection "Down" }, 
+  { mods = "ALT", key = "UpArrow", action = wezterm.action.ActivatePaneDirection "Up" }, 
+  { mods = "ALT", key = "RightArrow", action = wezterm.action.ActivatePaneDirection "Right" },
+
+  {
+      mods = "LEADER",
+      key = "LeftArrow",
+      action = wezterm.action.AdjustPaneSize { "Left", 5 }
+  },
+  {
+      mods = "LEADER",
+      key = "RightArrow",
+      action = wezterm.action.AdjustPaneSize { "Right", 5 }
+  },
+  {
+      mods = "LEADER",
+      key = "DownArrow",
+      action = wezterm.action.AdjustPaneSize { "Down", 5 }
+  },
+  {
+      mods = "LEADER",
+      key = "UpArrow",
+      action = wezterm.action.AdjustPaneSize { "Up", 5 }
+  },
+  
+  -- Zoom/unzoom pane (toggle maximize)
+  {
+      mods = "LEADER",
+      key = "z",
+      action = wezterm.action.TogglePaneZoomState
+  },
+
+-- Copy mode (like tmux copy mode)
+  { key = "[",
+  mods = "LEADER",
+  action = wezterm.action.ActivateCopyMode
+  },
+  {
+    key = 'x',
+    mods = 'CTRL|SHIFT',
     action = wezterm.action.ActivateCopyMode,
   },
   
@@ -490,25 +495,6 @@ config.show_new_tab_button_in_tab_bar = false
 local current_workspace = "default"
 
 
-
-
-config.ssh_domains = {
-  {
-    -- This name identifies the domain
-    name = 'vdi.server',
-    -- The hostname or address to connect to. Will be used to match settings
-    -- from your ssh config file
-    -- remote_address = 'xhdharshwar41x',
-    remote_address = 'xhdrdevl218',
-    -- The username to use on the remote host
-    username = 'harshwar',
-    -- Enable X11 forwarding
-    -- ssh_option = {
-    -- x11 = true,
-    -- },
-  },
-}
-
 --[[
 ============================
 Leader Active Indicator
@@ -519,7 +505,6 @@ status_bg = "#262626"      -- Dark background
 tabname_bg = "#907aa9"
 icons_bg = "#797593"
 
--- config.enable_shell_integration = true
 -- config.automatically_reload_config = true
 
 wezterm.on("update-status", function(window, _)
@@ -582,9 +567,20 @@ wezterm.on("update-status", function(window, _)
     local time = wezterm.strftime("%H:%M")
     local date = wezterm.strftime("%Y-%m-%d")
     
+    local pane = window:active_pane()
+    local domain_name = pane:get_domain_name()
+    local hostname
+
+    if domain_name and domain_name ~= "local" then
+        -- For SSH domains, use the domain name or extract from remote_address
+        hostname = domain_name  -- or parse from ssh_domains config
+    else
+        -- For local sessions, use environment variables
+        hostname = os.getenv("COMPUTERNAME") or os.getenv("HOSTNAME") or "unknown"
+    end
+    
     -- Get username and hostname
     local username = os.getenv("USERNAME") or os.getenv("USER") or "unknown"
-    local hostname = os.getenv("COMPUTERNAME") or os.getenv("HOSTNAME") or "unknown"
     
 
     local cwd = window:active_pane():get_current_working_dir()
@@ -603,7 +599,6 @@ wezterm.on("update-status", function(window, _)
     end
 
     window:set_right_status(wezterm.format {
-
         { Background = { Color = status_bg } },
         { Foreground = { Color = "#f9e2af" } },
         { Text = "  " .. username },
@@ -633,11 +628,12 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   local title = tab.tab_title
 
     -- Active tab: orange text, normal background
-    wezterm.log_info("Tab Title: " .. string.format(' %d. %s |', tab.tab_index + 1, title))
+    local str_var = string.format(" %d. %s |", tab.tab_index + 1, title)
+    -- wezterm.log_info("Tab Title: " .. str_var)
     return wezterm.format {
       { Background = { Color = status_bg } },
       { Foreground = { Color = tab.is_active and "#ea9d34" or tabname_bg } },
-      { Text = string.format(' %d. %s |', tab.tab_index + 1, title) },
+      { Text = str_var },
     }
 
 end)
@@ -646,9 +642,21 @@ end)
 config.colors = {
   tab_bar = {
     background = status_bg
-  }
+    -- background = "#ea9d34"
+  }  
 }
 
+
+-- add paths to quick select for fast copy
+config.quick_select_patterns = {
+  -- Match Unix and Windows file paths
+  [[([a-zA-Z]:[\\/][\w\-.\\\/]+)]],      -- Windows paths like C:\Users\file.txt
+  [[(/[^\s"']+)]],                       -- Unix paths like /home/user/file.txt
+  [[https?://[^\s"']+]],  -- URLs
+}
+
+
+-- local resurrect = wezterm.plugin.require("file:///C:\\Users\\harshwar\\AppData\\Roaming\\wezterm\\plugins\\resurrects_wezterm")
 
 -- start the terminal maximized
 wezterm.on('gui-startup', function(cmd)
@@ -656,8 +664,7 @@ wezterm.on('gui-startup', function(cmd)
   window:gui_window():maximize()
 end)
 
--- Configure copy behavior
-config.canonicalize_pasted_newlines = "None"
+config.scrollback_lines = 5000
 
 -- config.debug_key_events = true
 
